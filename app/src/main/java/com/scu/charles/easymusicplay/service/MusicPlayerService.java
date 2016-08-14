@@ -90,6 +90,10 @@ public class MusicPlayerService extends Service implements
         }
     }
 
+    public void pause(){
+        mPlayer.pause();
+    }
+
     private void doStart(){
         mPlayer.start();
         changeState(State.STARTED);

@@ -31,6 +31,7 @@ public class MusicBrowserActivity extends AppCompatActivity implements View.OnCl
     private int currentPosition = 0;
     private ImageView iv_pre;
     private ImageView iv_next;
+    private ImageView iv_control;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +47,8 @@ public class MusicBrowserActivity extends AppCompatActivity implements View.OnCl
         iv_pre.setOnClickListener(this);
         iv_next = (ImageView) findViewById(R.id.iv_next);
         iv_next.setOnClickListener(this);
+        iv_control = (ImageView) findViewById(R.id.iv_control);
+        iv_control.setOnClickListener(this);
         mListview = (RecyclerView) findViewById(R.id.rl_music_list);
         mData = new ArrayList<Audio>();
         mData = MediaUtils.getAudioList(MusicBrowserActivity.this);
@@ -84,11 +87,7 @@ public class MusicBrowserActivity extends AppCompatActivity implements View.OnCl
                 }
                 break;
             case R.id.iv_control:
-                /*if(!isPlaying){
-                    app.bindMusicService();
-                    app.musicPlayerService.start(mData.get(position).getPath());
-                    isPlaying = true;
-                }*/
+                app.musicPlayerService.pause();
                 break;
         }
     }
