@@ -42,7 +42,7 @@ public class MusicBrowserAdapter extends RecyclerView.Adapter<MusicBrowserAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.music_title.setText(mData.get(position).getTitle());
-        holder.music_composer.setText(mData.get(position).getArtist());
+        holder.music_artist.setText(mData.get(position).getArtist());
     }
 
     @Override
@@ -52,11 +52,11 @@ public class MusicBrowserAdapter extends RecyclerView.Adapter<MusicBrowserAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         public TextView music_title;
-        public TextView music_composer;
+        public TextView music_artist;
         public ViewHolder(View itemView) {
             super(itemView);
             music_title = (TextView) itemView.findViewById(R.id.music_title);
-            music_composer = (TextView) itemView.findViewById(R.id.music_composer);
+            music_artist = (TextView) itemView.findViewById(R.id.music_artist);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

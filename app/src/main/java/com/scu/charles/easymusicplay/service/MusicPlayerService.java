@@ -6,12 +6,8 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.IBinder;
-import android.provider.MediaStore;
-
 import com.scu.charles.easymusicplay.constant.State;
 import com.scu.charles.easymusicplay.model.Audio;
-
-import java.io.IOException;
 
 public class MusicPlayerService extends Service implements
         MediaPlayer.OnCompletionListener,MediaPlayer.OnPreparedListener,MediaPlayer.OnErrorListener {

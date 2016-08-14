@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.scu.charles.easymusicplay.R;
 import com.scu.charles.easymusicplay.adapter.MusicBrowserAdapter;
@@ -27,6 +28,9 @@ public class MusicBrowserActivity extends AppCompatActivity implements View.OnCl
     List<Audio> mData;
     private MyApplication app;
     boolean isPlaying = false;
+    private int currentPosition = 0;
+    private ImageView iv_pre;
+    private ImageView iv_next;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +42,10 @@ public class MusicBrowserActivity extends AppCompatActivity implements View.OnCl
 
 
     private void initViews() {
-
+        iv_pre = (ImageView) findViewById(R.id.iv_pre);
+        iv_pre.setOnClickListener(this);
+        iv_next = (ImageView) findViewById(R.id.iv_next);
+        iv_next.setOnClickListener(this);
         mListview = (RecyclerView) findViewById(R.id.rl_music_list);
         mData = new ArrayList<Audio>();
         mData = MediaUtils.getAudioList(MusicBrowserActivity.this);
@@ -48,25 +55,8 @@ public class MusicBrowserActivity extends AppCompatActivity implements View.OnCl
         musicBrowserAdapter.setOnItemClickListener(new MusicBrowserAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Log.i("TAG",mData.get(position).getPath());
-                MediaPlayer mediaPlayer = new MediaPlayer();
-                try{
-                    mediaPlayer.setDataSource(mData.get(position).getPath());
-                    mediaPlayer.prepare();
-                    mediaPlayer.start();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-/*
-                if(!isPlaying) {
-                    app.bindMusicService();
-                    app.musicPlayerService.start(mData.get(position).getPath());
-                    isPlaying = true;
-                }else{
-                    app.unbindMusicService();
-                }
-*/
-
+                currentPosition = position;
+                app.musicPlayerService.start(mData.get(position).getPath());
             }
         });
     }
@@ -76,9 +66,22 @@ public class MusicBrowserActivity extends AppCompatActivity implements View.OnCl
         int id = v.getId();
         switch (id){
             case R.id.iv_pre:
+                if(currentPosition==0){
+                    currentPosition = mData.size()-1;
+                    app.musicPlayerService.start(mData.get(currentPosition).getPath());
+                }else{
+                    currentPosition = currentPosition -1;
+                    app.musicPlayerService.start(mData.get(currentPosition-1).getPath());
+                }
             break;
             case R.id.iv_next:
-
+                if(currentPosition==mData.size()-1){
+                    currentPosition = 0;
+                    app.musicPlayerService.start(mData.get(currentPosition).getPath());
+                }else{
+                    currentPosition = currentPosition+1;
+                    app.musicPlayerService.start(mData.get(currentPosition).getPath());
+                }
                 break;
             case R.id.iv_control:
                 /*if(!isPlaying){

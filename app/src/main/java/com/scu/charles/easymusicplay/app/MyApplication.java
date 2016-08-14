@@ -19,6 +19,8 @@ public class MyApplication extends Application implements ServiceConnection{
     @Override
     public void onCreate() {
         super.onCreate();
+        startMusicService();
+        bindMusicService();
     }
 
     public void startMusicService(){
@@ -26,7 +28,7 @@ public class MyApplication extends Application implements ServiceConnection{
         startService(intent);
     }
 
-    public void stopMusicService(){
+    private  void stopMusicService(){
         Intent intent = new Intent(this,MusicPlayerService.class);
         stopService(intent);
     }
@@ -36,7 +38,7 @@ public class MyApplication extends Application implements ServiceConnection{
         this.bindService(intent,this, Service.BIND_AUTO_CREATE);
     }
 
-    public void unbindMusicService(){
+    private void unbindMusicService(){
         Intent intent =new Intent(this, MusicPlayerService.class);
         this.unbindService(this);
     }
@@ -46,7 +48,6 @@ public class MyApplication extends Application implements ServiceConnection{
         if(service instanceof MusicPlayerService.ServiceBinder){
             MusicPlayerService.ServiceBinder binder = (MusicPlayerService.ServiceBinder) service;
             musicPlayerService = binder.getService();
-            //musicPlayerService.regis
         }
     }
 

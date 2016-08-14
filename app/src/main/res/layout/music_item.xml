@@ -29,7 +29,7 @@
             android:layout_height="30dp"
             android:text="music_title" />
         <TextView
-            android:id="@+id/music_composer"
+            android:id="@+id/music_artist"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:text="music_composer"/>
