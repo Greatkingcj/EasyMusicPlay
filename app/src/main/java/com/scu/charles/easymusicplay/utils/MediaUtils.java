@@ -81,4 +81,28 @@ public class MediaUtils {
         cursor.close();
         return audioList;
     }
+
+    public static List<String> getArtPicList(Context context,String albumKey){
+        List<String> picList = new ArrayList<>();
+        String[] argArr = {albumKey};
+        ContentResolver albumResolver = context.getContentResolver();
+        Cursor albumCursor = albumResolver.query(
+                MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
+                null,
+                MediaStore.Audio.AlbumColumns.ALBUM_KEY + " = ?",
+                argArr,
+                null);
+        if(null!=albumCursor&&albumCursor.getCount()>0){
+            for(albumCursor.moveToFirst();!albumCursor.isAfterLast();albumCursor.moveToNext()) {
+                int albumArtIndex = albumCursor.getColumnIndex(MediaStore.Audio.AlbumColumns.ALBUM_ART);
+                String musicAlbumArtPath = albumCursor.getString(albumArtIndex);
+                if (null != musicAlbumArtPath
+                        && !"".equals(musicAlbumArtPath)) {
+                    picList.add(musicAlbumArtPath);
+                }
+            }
+        }
+        albumCursor.close();
+        return picList;
+    }
 }

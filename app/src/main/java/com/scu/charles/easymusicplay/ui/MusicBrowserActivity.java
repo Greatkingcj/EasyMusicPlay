@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.scu.charles.easymusicplay.R;
 import com.scu.charles.easymusicplay.adapter.MusicBrowserAdapter;
 import com.scu.charles.easymusicplay.app.MyApplication;
@@ -29,6 +30,7 @@ public class MusicBrowserActivity extends AppCompatActivity implements View.OnCl
     private MyApplication app;
     boolean isPlaying = false;
     private int currentPosition = 0;
+    private ImageView music_pic;
     private ImageView iv_pre;
     private ImageView iv_next;
     private ImageView iv_control;
@@ -49,6 +51,7 @@ public class MusicBrowserActivity extends AppCompatActivity implements View.OnCl
         iv_next.setOnClickListener(this);
         iv_control = (ImageView) findViewById(R.id.iv_control);
         iv_control.setOnClickListener(this);
+        music_pic = (ImageView) findViewById(R.id.music_pic);
         mListview = (RecyclerView) findViewById(R.id.rl_music_list);
         mData = new ArrayList<Audio>();
         mData = MediaUtils.getAudioList(MusicBrowserActivity.this);
@@ -60,6 +63,14 @@ public class MusicBrowserActivity extends AppCompatActivity implements View.OnCl
             public void onItemClick(View view, int position) {
                 currentPosition = position;
                 app.musicPlayerService.start(mData.get(position).getPath());
+                if(MediaUtils.getArtPicList(MusicBrowserActivity.this,mData.get(position).getAlbumKey()).size()>0) {
+                    String url = MediaUtils.getArtPicList(MusicBrowserActivity.this, mData.get(position).getAlbumKey()).get(0);
+                    Log.i("Tag",MediaUtils.getArtPicList(MusicBrowserActivity.this,mData.get(position).getAlbumKey()).size()+" kkk");
+                    Log.i("Tag", url);
+                    Glide.with(MusicBrowserActivity.this).load("file://" + url).into(music_pic);
+                }else{
+                    music_pic.setImageResource(R.mipmap.ic_launcher);
+                }
             }
         });
     }
